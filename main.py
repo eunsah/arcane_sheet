@@ -115,7 +115,7 @@ class ArcaneForce(tk.Frame):
             master = self.current_arcaneforce_symbol,
             font = default_text,
             width = int(WIDTH/90),
-            justify = tk.RIGHT,
+            justify = tk.CENTER,
             state = 'disabled'
             )
         self.current_arcaneforce_symbol_entry.configure(
@@ -131,18 +131,32 @@ class ArcaneForce(tk.Frame):
         )
         self.current_arcaneforce_hyper.pack(anchor='w')
         self.current_arcaneforce_hyper_value = tk.StringVar(value='0')
-        self.current_arcaneforce_hyper_entry = ttk.Entry(
+        # self.current_arcaneforce_hyper_entry = ttk.Entry(
+        #     master = self.current_arcaneforce_hyper,
+        #     font = default_text,
+        #     width = int(WIDTH/90),
+        #     justify = tk.CENTER,
+        #     validate = 'key',
+        #     validatecommand = self.int_only
+        # )
+        # self.current_arcaneforce_hyper_entry.configure(
+        #     textvariable=self.current_arcaneforce_hyper_value
+        # )
+        # self.current_arcaneforce_hyper_entry.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_hyper_combobox = ttk.Combobox(
             master = self.current_arcaneforce_hyper,
             font = default_text,
-            width = int(WIDTH/90),
-            justify = tk.RIGHT,
-            validate = 'key',
-            validatecommand = self.int_only
+            width = int(WIDTH/90)-2,
+            justify = tk.CENTER,
+            values = ['0', '1', '2', '3', '4',
+                      '5', '6', '7', '8', '9',
+                      '10', '11', '12', '13',
+                      '14', '15']
         )
-        self.current_arcaneforce_hyper_entry.configure(
+        self.current_arcaneforce_hyper_combobox.configure(
             textvariable=self.current_arcaneforce_hyper_value
         )
-        self.current_arcaneforce_hyper_entry.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_hyper_combobox.pack(padx=(140, 10), anchor='se')
 
         self.current_arcaneforce_guild = tk.Label(
             master = self.current_arcaneforce,
@@ -152,16 +166,28 @@ class ArcaneForce(tk.Frame):
         )
         self.current_arcaneforce_guild.pack(anchor='w')
         self.current_arcaneforce_guild_value = tk.StringVar(value='0')
-        self.current_arcaneforce_guild_entry = ttk.Entry(
+        # self.current_arcaneforce_guild_entry = ttk.Entry(
+        #     master = self.current_arcaneforce_guild,
+        #     font = default_text,
+        #     width = int(WIDTH/90),
+        #     justify = tk.CENTER
+        # )
+        # self.current_arcaneforce_guild_entry.configure(
+        #     textvariable=self.current_arcaneforce_guild_value
+        # )
+        # self.current_arcaneforce_guild_entry.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_guild_combobox = ttk.Combobox(
             master = self.current_arcaneforce_guild,
             font = default_text,
-            width = int(WIDTH/90),
-            justify = tk.RIGHT
+            width = int(WIDTH/90)-2,
+            justify = tk.CENTER,
+            values = ['0', '1', '2', '3', '4', '5', '6']
         )
-        self.current_arcaneforce_guild_entry.configure(
+        self.current_arcaneforce_guild_combobox.configure(
             textvariable=self.current_arcaneforce_guild_value
         )
-        self.current_arcaneforce_guild_entry.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_guild_combobox.pack(padx=(140, 10), anchor='se')
+
 
         self.current_arcaneforce_equip = tk.Label(
             master = self.current_arcaneforce,
@@ -175,7 +201,7 @@ class ArcaneForce(tk.Frame):
             master = self.current_arcaneforce_equip,
             font = default_text,
             width = int(WIDTH/90),
-            justify = tk.RIGHT
+            justify = tk.CENTER
         )
         self.current_arcaneforce_equip_entry.configure(
             textvariable=self.current_arcaneforce_equip_value
@@ -184,23 +210,23 @@ class ArcaneForce(tk.Frame):
 
         # --------------------------------------------------------------
 
-        self.current_arcaneforce_total = tk.Label(
-            master = self.current_arcaneforce,
-            text = '  Total Arcane Force:',
-            font = ('Inconsolata', 14),
-            anchor = 'w'
-        )
+        # self.current_arcaneforce_total = tk.Label(
+        #     master = self.current_arcaneforce,
+        #     text = '  Total Arcane Force:',
+        #     font = ('Inconsolata', 14),
+        #     anchor = 'w'
+        # )
         # self.current_arcaneforce_total.pack(anchor='w')
-        self.current_arcaneforce_total_value = tk.StringVar(value='1350')
-        self.current_arcaneforce_total_result = tk.Label(
-            master = self.current_arcaneforce_total,
-            font = ('Inconsolata', 18),
-            width = 4,
-            anchor = 'e'
-        )
-        self.current_arcaneforce_total_result.configure(
-            textvariable=self.current_arcaneforce_total_value
-        )
+        # self.current_arcaneforce_total_value = tk.StringVar(value='1350')
+        # self.current_arcaneforce_total_result = tk.Label(
+        #     master = self.current_arcaneforce_total,
+        #     font = ('Inconsolata', 18),
+        #     width = 4,
+        #     anchor = 'e'
+        # )
+        # self.current_arcaneforce_total_result.configure(
+        #     textvariable=self.current_arcaneforce_total_value
+        # )
         # self.current_arcaneforce_total_result.pack(padx=(160, 10), anchor='se')
 
     def validate_int_only(self, d, i, P, s, S, v, V, W):

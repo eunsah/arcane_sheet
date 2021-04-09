@@ -44,6 +44,8 @@ class ArcaneForce(tk.Frame):
         super().__init__(master)
         self.master = master
         self.master.wm_protocol('WM_DELETE_WINDOW', self.exit)
+        self.int_only = (self.register(self.validate_int_only),
+                '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
         # self.test()
         self.root_frames()
         self.labelframe_manager()
@@ -133,7 +135,9 @@ class ArcaneForce(tk.Frame):
             master = self.current_arcaneforce_hyper,
             font = default_text,
             width = int(WIDTH/90),
-            justify = tk.RIGHT
+            justify = tk.RIGHT,
+            validate = 'key',
+            validatecommand = self.int_only
         )
         self.current_arcaneforce_hyper_entry.configure(
             textvariable=self.current_arcaneforce_hyper_value
@@ -177,6 +181,26 @@ class ArcaneForce(tk.Frame):
             textvariable=self.current_arcaneforce_equip_value
         )
         self.current_arcaneforce_equip_entry.pack(padx=(140, 10), anchor='se')
+
+    def validate_int_only(self, d, i, P, s, S, v, V, W):
+        # valid percent substitutions (from the Tk entry man page)
+        # note: you only have to register the ones you need; this
+        # example registers them all for illustrative purposes
+        #
+        # %d = Type of action (1=insert, 0=delete, -1 for others)
+        # %i = index of char string to be inserted/deleted, or -1
+        # %P = value of the entry if the edit is allowed
+        # %s = value of entry prior to editing
+        # %S = the text string being inserted or deleted, if any
+        # %v = the type of validation that is currently set
+        # %V = the type of validation that triggered the callback
+        #      (key, focusin, focusout, forced)
+        # %W = the tk name of the widget
+        if S.isdigit():
+            return True
+        else:
+            self.bell()
+            return False
 
 
     def auto_text_space(self, text, totalsizeoftext):

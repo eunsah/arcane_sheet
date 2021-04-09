@@ -35,21 +35,6 @@ symbol_cost_discounted = [
     118_040_000,    124_640_000,    131_240_000,    137_840_000
 ]
 
-# class ttk.Entry(ttk.Entry):
-#     def __init__(self, master = None, **kwargs):
-#         self.var = tk.StringVar()
-#         ttk.Entry.__init__(self, master, textvariable=self.var, **kwargs)
-#         self.old_value = ''
-#         self.var.trace('w', self.check)
-#         self.get, self.set = self.var.get, self.var.set
-
-#     def check(self, *args):
-#         if self.get().isdigit():
-#             self.old_value = self.get()
-#         else:
-#             self.set(self.old_value)
-
-
 class ArcaneForce(tk.Frame):
     '''
     class for tkinter

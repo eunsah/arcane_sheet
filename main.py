@@ -148,10 +148,12 @@ class ArcaneForce(tk.Frame):
             font = default_text,
             width = int(WIDTH/90)-2,
             justify = tk.CENTER,
+            height = 5,
             values = ['0', '1', '2', '3', '4',
                       '5', '6', '7', '8', '9',
                       '10', '11', '12', '13',
-                      '14', '15']
+                      '14', '15'],
+            state = 'readonly'
         )
         self.current_arcaneforce_hyper_combobox.configure(
             textvariable=self.current_arcaneforce_hyper_value
@@ -181,7 +183,9 @@ class ArcaneForce(tk.Frame):
             font = default_text,
             width = int(WIDTH/90)-2,
             justify = tk.CENTER,
-            values = ['0', '1', '2', '3', '4', '5', '6']
+            height = 5,
+            values = ['0', '1', '2', '3', '4', '5', '6'],
+            state = 'readonly'
         )
         self.current_arcaneforce_guild_combobox.configure(
             textvariable=self.current_arcaneforce_guild_value
@@ -197,16 +201,30 @@ class ArcaneForce(tk.Frame):
         )
         self.current_arcaneforce_equip.pack(anchor='w', pady=(0, 10))
         self.current_arcaneforce_equip_value = tk.StringVar(value='0')
-        self.current_arcaneforce_equip_entry = ttk.Entry(
+        # self.current_arcaneforce_equip_entry = ttk.Entry(
+        #     master = self.current_arcaneforce_equip,
+        #     font = default_text,
+        #     width = int(WIDTH/90),
+        #     justify = tk.CENTER
+        # )
+        # self.current_arcaneforce_equip_entry.configure(
+        #     textvariable=self.current_arcaneforce_equip_value
+        # )
+        # self.current_arcaneforce_equip_entry.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_equip_combobox = ttk.Combobox(
             master = self.current_arcaneforce_equip,
             font = default_text,
-            width = int(WIDTH/90),
-            justify = tk.CENTER
+            width = int(WIDTH/90)-2,
+            justify = tk.CENTER,
+            height = 5,
+            values = ['0', '30', '50', '60', '80'],
+            state = 'readonly'
         )
-        self.current_arcaneforce_equip_entry.configure(
+        self.current_arcaneforce_equip_combobox.configure(
             textvariable=self.current_arcaneforce_equip_value
         )
-        self.current_arcaneforce_equip_entry.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_equip_combobox.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_equip_combobox.bind('<<ComboboxSelected>>', func=lambda _: print('wow'))
 
         # --------------------------------------------------------------
 

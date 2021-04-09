@@ -62,13 +62,13 @@ class ArcaneForce(tk.Frame):
         print ('ArcaneForce.Function.labelframe_manager()')
         self.current_arcaneforce = tk.LabelFrame(
             master = self.body,
-            text = ' Arcane Source ',
+            text = ' Arcane Force ',
             font = default_title,
             bd = 1, relief = 'ridge',
             width = WIDTH/3, height = HEIGHT*.39
         )
         self.current_arcaneforce.place(x=10,y=HEIGHT*.03)
-        self.current_arcaneforce.pack_propagate(0)
+        # self.current_arcaneforce.pack_propagate(0)
         self.handle_current_arcaneforce()
 
         self.current_date_estimates = tk.LabelFrame(
@@ -109,7 +109,7 @@ class ArcaneForce(tk.Frame):
             font = default_text,
             anchor = 'w'
         )
-        self.current_arcaneforce_symbol.pack(anchor='e', pady=(5, 0))
+        self.current_arcaneforce_symbol.pack(anchor='w', pady=(5, 0))
         self.current_arcaneforce_symbol_value = tk.StringVar(value='0')
         self.current_arcaneforce_symbol_entry = ttk.Entry(
             master = self.current_arcaneforce_symbol,
@@ -129,7 +129,7 @@ class ArcaneForce(tk.Frame):
             font = default_text,
             anchor = 'w'
         )
-        self.current_arcaneforce_hyper.pack(anchor='e')
+        self.current_arcaneforce_hyper.pack(anchor='w')
         self.current_arcaneforce_hyper_value = tk.StringVar(value='0')
         self.current_arcaneforce_hyper_entry = ttk.Entry(
             master = self.current_arcaneforce_hyper,
@@ -150,7 +150,7 @@ class ArcaneForce(tk.Frame):
             font = default_text,
             anchor = 'w'
         )
-        self.current_arcaneforce_guild.pack(anchor='e')
+        self.current_arcaneforce_guild.pack(anchor='w')
         self.current_arcaneforce_guild_value = tk.StringVar(value='0')
         self.current_arcaneforce_guild_entry = ttk.Entry(
             master = self.current_arcaneforce_guild,
@@ -169,7 +169,7 @@ class ArcaneForce(tk.Frame):
             font = default_text,
             anchor = 'w'
         )
-        self.current_arcaneforce_equip.pack(anchor='e')
+        self.current_arcaneforce_equip.pack(anchor='w', pady=(0, 10))
         self.current_arcaneforce_equip_value = tk.StringVar(value='0')
         self.current_arcaneforce_equip_entry = ttk.Entry(
             master = self.current_arcaneforce_equip,
@@ -181,6 +181,27 @@ class ArcaneForce(tk.Frame):
             textvariable=self.current_arcaneforce_equip_value
         )
         self.current_arcaneforce_equip_entry.pack(padx=(140, 10), anchor='se')
+
+        # --------------------------------------------------------------
+
+        self.current_arcaneforce_total = tk.Label(
+            master = self.current_arcaneforce,
+            text = '  Total Arcane Force:',
+            font = ('Inconsolata', 14),
+            anchor = 'w'
+        )
+        # self.current_arcaneforce_total.pack(anchor='w')
+        self.current_arcaneforce_total_value = tk.StringVar(value='1350')
+        self.current_arcaneforce_total_result = tk.Label(
+            master = self.current_arcaneforce_total,
+            font = ('Inconsolata', 18),
+            width = 4,
+            anchor = 'e'
+        )
+        self.current_arcaneforce_total_result.configure(
+            textvariable=self.current_arcaneforce_total_value
+        )
+        # self.current_arcaneforce_total_result.pack(padx=(160, 10), anchor='se')
 
     def validate_int_only(self, d, i, P, s, S, v, V, W):
         # valid percent substitutions (from the Tk entry man page)
@@ -202,9 +223,8 @@ class ArcaneForce(tk.Frame):
             self.bell()
             return False
 
-
     def auto_text_space(self, text, totalsizeoftext):
-        return '    ' + text + ' '*(totalsizeoftext-(len(text)+5))
+        return '      ' + text + ' '*(totalsizeoftext-(len(text)+7))
 
     def test(self):
         print ('ArcaneForce.Function.test()')

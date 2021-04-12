@@ -51,6 +51,7 @@ class ArcaneForce(tk.Frame):
         self.labelframe_manager()
 
     def root_frames(self):
+        print ('ArcaneForce.Function.root_frames()')
         self.header = tk.Frame(master = self.master,bg='red',width=WIDTH, height=HEIGHT*.05)
         self.header.pack()
         self.body = tk.Frame(master = self.master, width=WIDTH, height=HEIGHT*.9)
@@ -90,6 +91,7 @@ class ArcaneForce(tk.Frame):
         )
         self.current_symbol_level.place(x=10, y=HEIGHT*.45)
         self.current_symbol_level.pack_propagate(0)
+        self.handle_table_arcanesymbols()
 
         self.current_arcane_dailies = tk.LabelFrame(
             master = self.body,
@@ -102,10 +104,11 @@ class ArcaneForce(tk.Frame):
         self.current_arcane_dailies.pack_propagate(0)
 
     def handle_current_arcaneforce(self):
+        print ('ArcaneForce.Function.handle_current_arcaneforce()')
         set_text_space = 20
         self.current_arcaneforce_symbol = tk.Label(
             master = self.current_arcaneforce,
-            text = self.auto_text_space('Symbol:', set_text_space),
+            text = self._auto_text_space('Symbol:', set_text_space),
             font = default_text,
             anchor = 'w'
         )
@@ -125,24 +128,11 @@ class ArcaneForce(tk.Frame):
 
         self.current_arcaneforce_hyper = tk.Label(
             master = self.current_arcaneforce,
-            text = self.auto_text_space('Hyper Stats:', set_text_space),
+            text = self._auto_text_space('Hyper Stats Lv.:', set_text_space),
             font = default_text,
             anchor = 'w'
         )
         self.current_arcaneforce_hyper.pack(anchor='w')
-        self.current_arcaneforce_hyper_value = tk.StringVar(value='0')
-        # self.current_arcaneforce_hyper_entry = ttk.Entry(
-        #     master = self.current_arcaneforce_hyper,
-        #     font = default_text,
-        #     width = int(WIDTH/90),
-        #     justify = tk.CENTER,
-        #     validate = 'key',
-        #     validatecommand = self.int_only
-        # )
-        # self.current_arcaneforce_hyper_entry.configure(
-        #     textvariable=self.current_arcaneforce_hyper_value
-        # )
-        # self.current_arcaneforce_hyper_entry.pack(padx=(140, 10), anchor='se')
         self.current_arcaneforce_hyper_combobox = ttk.Combobox(
             master = self.current_arcaneforce_hyper,
             font = default_text,
@@ -155,29 +145,17 @@ class ArcaneForce(tk.Frame):
                       '14', '15'],
             state = 'readonly'
         )
-        self.current_arcaneforce_hyper_combobox.configure(
-            textvariable=self.current_arcaneforce_hyper_value
-        )
+
         self.current_arcaneforce_hyper_combobox.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_hyper_combobox.bind('<<ComboboxSelected>>', self.reset_combobox_selection)
 
         self.current_arcaneforce_guild = tk.Label(
             master = self.current_arcaneforce,
-            text = self.auto_text_space('Guild Skill:', set_text_space),
+            text = self._auto_text_space('Guild Skill Lv.:', set_text_space),
             font = default_text,
             anchor = 'w'
         )
         self.current_arcaneforce_guild.pack(anchor='w')
-        self.current_arcaneforce_guild_value = tk.StringVar(value='0')
-        # self.current_arcaneforce_guild_entry = ttk.Entry(
-        #     master = self.current_arcaneforce_guild,
-        #     font = default_text,
-        #     width = int(WIDTH/90),
-        #     justify = tk.CENTER
-        # )
-        # self.current_arcaneforce_guild_entry.configure(
-        #     textvariable=self.current_arcaneforce_guild_value
-        # )
-        # self.current_arcaneforce_guild_entry.pack(padx=(140, 10), anchor='se')
         self.current_arcaneforce_guild_combobox = ttk.Combobox(
             master = self.current_arcaneforce_guild,
             font = default_text,
@@ -187,30 +165,17 @@ class ArcaneForce(tk.Frame):
             values = ['0', '1', '2', '3', '4', '5', '6'],
             state = 'readonly'
         )
-        self.current_arcaneforce_guild_combobox.configure(
-            textvariable=self.current_arcaneforce_guild_value
-        )
-        self.current_arcaneforce_guild_combobox.pack(padx=(140, 10), anchor='se')
 
+        self.current_arcaneforce_guild_combobox.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_guild_combobox.bind('<<ComboboxSelected>>', self.reset_combobox_selection)
 
         self.current_arcaneforce_equip = tk.Label(
             master = self.current_arcaneforce,
-            text = self.auto_text_space('Equipments:', set_text_space),
+            text = self._auto_text_space('Other AF source:', set_text_space),
             font = default_text,
             anchor = 'w'
         )
         self.current_arcaneforce_equip.pack(anchor='w', pady=(0, 10))
-        self.current_arcaneforce_equip_value = tk.StringVar(value='0')
-        # self.current_arcaneforce_equip_entry = ttk.Entry(
-        #     master = self.current_arcaneforce_equip,
-        #     font = default_text,
-        #     width = int(WIDTH/90),
-        #     justify = tk.CENTER
-        # )
-        # self.current_arcaneforce_equip_entry.configure(
-        #     textvariable=self.current_arcaneforce_equip_value
-        # )
-        # self.current_arcaneforce_equip_entry.pack(padx=(140, 10), anchor='se')
         self.current_arcaneforce_equip_combobox = ttk.Combobox(
             master = self.current_arcaneforce_equip,
             font = default_text,
@@ -220,12 +185,11 @@ class ArcaneForce(tk.Frame):
             values = ['0', '30', '50', '60', '80'],
             state = 'readonly'
         )
-        self.current_arcaneforce_equip_combobox.configure(
-            textvariable=self.current_arcaneforce_equip_value
-        )
-        self.current_arcaneforce_equip_combobox.pack(padx=(140, 10), anchor='se')
-        self.current_arcaneforce_equip_combobox.bind('<<ComboboxSelected>>', func=lambda _: print('wow'))
 
+        self.current_arcaneforce_equip_combobox.pack(padx=(140, 10), anchor='se')
+        self.current_arcaneforce_equip_combobox.bind('<<ComboboxSelected>>', self.reset_combobox_selection)
+
+        self.current_arcaneforce_init()
         # --------------------------------------------------------------
 
         # self.current_arcaneforce_total = tk.Label(
@@ -247,7 +211,274 @@ class ArcaneForce(tk.Frame):
         # )
         # self.current_arcaneforce_total_result.pack(padx=(160, 10), anchor='se')
 
+    def current_arcaneforce_init(self):
+        self.current_arcaneforce_hyper_value = tk.StringVar(value='0')
+        self.current_arcaneforce_hyper_combobox.configure(
+            textvariable=self.current_arcaneforce_hyper_value
+        )
+        self.current_arcaneforce_guild_value = tk.StringVar(value='0')
+        self.current_arcaneforce_guild_combobox.configure(
+            textvariable=self.current_arcaneforce_guild_value
+        )
+        self.current_arcaneforce_equip_value = tk.StringVar(value='0')
+        self.current_arcaneforce_equip_combobox.configure(
+            textvariable=self.current_arcaneforce_equip_value
+        )
+
+
+    def handle_table_arcanesymbols(self):
+        self.table_symbol_name = ttk.Label(
+            master = self.current_symbol_level,
+            text = '  ',
+            font = default_text,
+            anchor = tk.S,
+            width = 16
+            )
+        self.table_symbol_name.grid(row=0,column=0)
+
+        self.table_symbol_level = ttk.Label(
+            master = self.current_symbol_level,
+            text = 'Lv.',
+            font = default_text,
+            anchor = tk.S,
+            width = 6
+            )
+        self.table_symbol_level.grid(row=0,column=1)
+
+        self.table_symbol_exp = ttk.Label(
+            master = self.current_symbol_level,
+            text = 'Exp',
+            font = default_text,
+            anchor = tk.S,
+            width = 6
+            )
+        self.table_symbol_exp.grid(row=0,column=2)
+
+        self.table_symbol_endspace = ttk.Label(
+            master = self.current_symbol_level,
+            text = ' '
+        )
+        self.table_symbol_endspace.grid(row=0, column=3)
+
+        ## --- title --------------------------------
+
+        symbol_width = 20
+        symbol_padding = 1
+
+        self.table_symbol_VJ = ttk.Label(
+            master = self.current_symbol_level,
+            text = ' Vanishing Journey',
+            font = default_text,
+            anchor = tk.W,
+            width = symbol_width,
+            padding = symbol_padding
+            )
+        self.table_symbol_VJ.grid(row=1,column=0)
+        self.table_symbol_VJ_lv_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_VJ_lv_entry.grid(row=1, column=1)
+        self.table_symbol_VJ_exp_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_VJ_exp_entry.grid(row=1, column=2)
+
+        self.table_symbol_CC = ttk.Label(
+            master = self.current_symbol_level,
+            text = ' ChuChu Island',
+            font = default_text,
+            anchor = tk.W,
+            width = symbol_width,
+            padding = symbol_padding
+            )
+        self.table_symbol_CC.grid(row=2,column=0)
+        self.table_symbol_CC_lv_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_CC_lv_entry.grid(row=2, column=1)
+        self.table_symbol_CC_exp_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_CC_exp_entry.grid(row=2, column=2)
+
+        self.table_symbol_Lach = ttk.Label(
+            master = self.current_symbol_level,
+            text = ' Lachelein',
+            font = default_text,
+            anchor = tk.W,
+            width = symbol_width,
+            padding = symbol_padding
+            )
+        self.table_symbol_Lach.grid(row=3,column=0)
+        self.table_symbol_Lach_lv_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_Lach_lv_entry.grid(row=3, column=1)
+        self.table_symbol_Lach_exp_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_Lach_exp_entry.grid(row=3, column=2)
+
+        self.table_symbol_Arcana = ttk.Label(
+            master = self.current_symbol_level,
+            text = ' Arcana',
+            font = default_text,
+            anchor = tk.W,
+            width = symbol_width,
+            padding = symbol_padding
+            )
+        self.table_symbol_Arcana.grid(row=4,column=0)
+        self.table_symbol_Arcana_lv_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_Arcana_lv_entry.grid(row=4, column=1)
+        self.table_symbol_Arcana_exp_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_Arcana_exp_entry.grid(row=4, column=2)
+
+        self.table_symbol_Morass = ttk.Label(
+            master = self.current_symbol_level,
+            text = ' Morass',
+            font = default_text,
+            anchor = tk.W,
+            width = symbol_width,
+            padding = symbol_padding
+            )
+        self.table_symbol_Morass.grid(row=5,column=0)
+        self.table_symbol_Morass_lv_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_Morass_lv_entry.grid(row=5, column=1)
+        self.table_symbol_Morass_exp_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_Morass_exp_entry.grid(row=5, column=2)
+
+        self.table_symbol_Esfera = ttk.Label(
+            master = self.current_symbol_level,
+            text = ' Esfera',
+            font = default_text,
+            anchor = tk.W,
+            width = symbol_width,
+            padding = symbol_padding
+            )
+        self.table_symbol_Esfera.grid(row=6,column=0)
+        self.table_symbol_Esfera_lv_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_Esfera_lv_entry.grid(row=6, column=1)
+        self.table_symbol_Esfera_exp_entry = ttk.Entry(
+            master = self.current_symbol_level,
+            font = default_text,
+            justify = tk.CENTER,
+            width = 4
+            )
+        self.table_symbol_Esfera_exp_entry.grid(row=6, column=2)
+
+        self.table_symbol_pad = ttk.Label(
+            master = self.current_symbol_level,
+            text = ''
+            )
+        self.table_symbol_pad.grid(row=7,column=0)
+
+        self.arcane_symbols_init()
+
+    def arcane_symbols_init(self):
+        self.table_symbol_VJ_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_VJ_lv_entry.configure(
+            textvariable = self.table_symbol_VJ_lv_entry_value
+        )
+        self.table_symbol_VJ_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_VJ_exp_entry.configure(
+            textvariable = self.table_symbol_VJ_lv_entry_value
+        )
+
+        self.table_symbol_CC_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_CC_lv_entry.configure(
+            textvariable = self.table_symbol_CC_lv_entry_value
+        )
+        self.table_symbol_CC_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_CC_exp_entry.configure(
+            textvariable = self.table_symbol_CC_lv_entry_value
+        )
+
+        self.table_symbol_Lach_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Lach_lv_entry.configure(
+            textvariable = self.table_symbol_Lach_lv_entry_value
+        )
+        self.table_symbol_Lach_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Lach_exp_entry.configure(
+            textvariable = self.table_symbol_Lach_lv_entry_value
+        )
+
+        self.table_symbol_Arcana_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Arcana_lv_entry.configure(
+            textvariable = self.table_symbol_Arcana_lv_entry_value
+        )
+        self.table_symbol_Arcana_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Arcana_exp_entry.configure(
+            textvariable = self.table_symbol_Arcana_lv_entry_value
+        )
+
+        self.table_symbol_Morass_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Morass_lv_entry.configure(
+            textvariable = self.table_symbol_Morass_lv_entry_value
+        )
+        self.table_symbol_Morass_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Morass_exp_entry.configure(
+            textvariable = self.table_symbol_Morass_lv_entry_value
+        )
+
+        self.table_symbol_Esfera_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Esfera_lv_entry.configure(
+            textvariable = self.table_symbol_Esfera_lv_entry_value
+        )
+        self.table_symbol_Esfera_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Esfera_exp_entry.configure(
+            textvariable = self.table_symbol_Esfera_lv_entry_value
+        )
+
+    def reset_combobox_selection(self, this):
+        print ('ArcaneForce.Function.reset_combo_selection()')
+        print ('From :', this.widget)
+        print ('selected=', this.widget.get(), sep='')
+
     def validate_int_only(self, d, i, P, s, S, v, V, W):
+        print ('ArcaneForce.Function.validate_int_only()')
         # valid percent substitutions (from the Tk entry man page)
         # note: you only have to register the ones you need; this
         # example registers them all for illustrative purposes
@@ -267,7 +498,7 @@ class ArcaneForce(tk.Frame):
             self.bell()
             return False
 
-    def auto_text_space(self, text, totalsizeoftext):
+    def _auto_text_space(self, text, totalsizeoftext):
         return '      ' + text + ' '*(totalsizeoftext-(len(text)+7))
 
     def test(self):

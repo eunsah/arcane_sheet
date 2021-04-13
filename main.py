@@ -16,7 +16,6 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 default_text = ('Inconsolata', 12)
 default_title = ('Inconsolata', 16)
 symbol_max_level = 20
-ARC_symbols = collections.defaultdict(int)
 symbol_exp = [
     1,      11,     15,     20,     27,
     36,     47,     60,     75,     92,
@@ -49,6 +48,7 @@ class ArcaneForce(tk.Frame):
         self.master.wm_protocol('WM_DELETE_WINDOW', self.exit)
         self.int_only = (self.register(self.validate_int_only),
                 '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+        self.ARC_symbols = collections.defaultdict(int)
         # self.test()
         self.root_frames()
         self.labelframe_manager()
@@ -337,7 +337,7 @@ class ArcaneForce(tk.Frame):
             padding = symbol_padding
             )
         self.table_symbol_Lach.grid(row=3,column=0)
-        self.table_symbol_Lach_lv_entry = ttk.Entry(
+        self.table_symbol_LA_lv_entry = ttk.Entry(
             master = self.current_symbol_level,
             font = default_text,
             justify = tk.CENTER,
@@ -345,8 +345,8 @@ class ArcaneForce(tk.Frame):
             validate = 'key',
             validatecommand = self.int_only
             )
-        self.table_symbol_Lach_lv_entry.grid(row=3, column=1)
-        self.table_symbol_Lach_exp_entry = ttk.Entry(
+        self.table_symbol_LA_lv_entry.grid(row=3, column=1)
+        self.table_symbol_LA_exp_entry = ttk.Entry(
             master = self.current_symbol_level,
             font = default_text,
             justify = tk.CENTER,
@@ -354,7 +354,7 @@ class ArcaneForce(tk.Frame):
             validate = 'key',
             validatecommand = self.int_only
             )
-        self.table_symbol_Lach_exp_entry.grid(row=3, column=2)
+        self.table_symbol_LA_exp_entry.grid(row=3, column=2)
 
         self.table_symbol_Arcana = ttk.Label(
             master = self.current_symbol_level,
@@ -365,7 +365,7 @@ class ArcaneForce(tk.Frame):
             padding = symbol_padding
             )
         self.table_symbol_Arcana.grid(row=4,column=0)
-        self.table_symbol_Arcana_lv_entry = ttk.Entry(
+        self.table_symbol_AR_lv_entry = ttk.Entry(
             master = self.current_symbol_level,
             font = default_text,
             justify = tk.CENTER,
@@ -373,8 +373,8 @@ class ArcaneForce(tk.Frame):
             validate = 'key',
             validatecommand = self.int_only
             )
-        self.table_symbol_Arcana_lv_entry.grid(row=4, column=1)
-        self.table_symbol_Arcana_exp_entry = ttk.Entry(
+        self.table_symbol_AR_lv_entry.grid(row=4, column=1)
+        self.table_symbol_AR_exp_entry = ttk.Entry(
             master = self.current_symbol_level,
             font = default_text,
             justify = tk.CENTER,
@@ -382,7 +382,7 @@ class ArcaneForce(tk.Frame):
             validate = 'key',
             validatecommand = self.int_only
             )
-        self.table_symbol_Arcana_exp_entry.grid(row=4, column=2)
+        self.table_symbol_AR_exp_entry.grid(row=4, column=2)
 
         self.table_symbol_Morass = ttk.Label(
             master = self.current_symbol_level,
@@ -393,7 +393,7 @@ class ArcaneForce(tk.Frame):
             padding = symbol_padding
             )
         self.table_symbol_Morass.grid(row=5,column=0)
-        self.table_symbol_Morass_lv_entry = ttk.Entry(
+        self.table_symbol_MO_lv_entry = ttk.Entry(
             master = self.current_symbol_level,
             font = default_text,
             justify = tk.CENTER,
@@ -401,8 +401,8 @@ class ArcaneForce(tk.Frame):
             validate = 'key',
             validatecommand = self.int_only
             )
-        self.table_symbol_Morass_lv_entry.grid(row=5, column=1)
-        self.table_symbol_Morass_exp_entry = ttk.Entry(
+        self.table_symbol_MO_lv_entry.grid(row=5, column=1)
+        self.table_symbol_MO_exp_entry = ttk.Entry(
             master = self.current_symbol_level,
             font = default_text,
             justify = tk.CENTER,
@@ -410,7 +410,7 @@ class ArcaneForce(tk.Frame):
             validate = 'key',
             validatecommand = self.int_only
             )
-        self.table_symbol_Morass_exp_entry.grid(row=5, column=2)
+        self.table_symbol_MO_exp_entry.grid(row=5, column=2)
 
         self.table_symbol_Esfera = ttk.Label(
             master = self.current_symbol_level,
@@ -421,7 +421,7 @@ class ArcaneForce(tk.Frame):
             padding = symbol_padding
             )
         self.table_symbol_Esfera.grid(row=6,column=0)
-        self.table_symbol_Esfera_lv_entry = ttk.Entry(
+        self.table_symbol_ES_lv_entry = ttk.Entry(
             master = self.current_symbol_level,
             font = default_text,
             justify = tk.CENTER,
@@ -429,8 +429,8 @@ class ArcaneForce(tk.Frame):
             validate = 'key',
             validatecommand = self.int_only
             )
-        self.table_symbol_Esfera_lv_entry.grid(row=6, column=1)
-        self.table_symbol_Esfera_exp_entry = ttk.Entry(
+        self.table_symbol_ES_lv_entry.grid(row=6, column=1)
+        self.table_symbol_ES_exp_entry = ttk.Entry(
             master = self.current_symbol_level,
             font = default_text,
             justify = tk.CENTER,
@@ -438,7 +438,7 @@ class ArcaneForce(tk.Frame):
             validate = 'key',
             validatecommand = self.int_only
             )
-        self.table_symbol_Esfera_exp_entry.grid(row=6, column=2)
+        self.table_symbol_ES_exp_entry.grid(row=6, column=2)
 
         self.table_symbol_pad = ttk.Label(
             master = self.current_symbol_level,
@@ -450,77 +450,82 @@ class ArcaneForce(tk.Frame):
 
     def arcane_symbols_init(self):
         print ('ArcaneForce.Function.arcane_symbols_init()')
-        self.table_symbol_VJ_lv_entry_value = tk.StringVar(
-            name = 'VJ_Symbol_lv',
-            )
-        self.table_symbol_VJ_lv_entry.configure(
-            textvariable = self.table_symbol_VJ_lv_entry_value
-            )
-        self.table_symbol_VJ_lv_entry_value.trace_add(
-            ['write','read','unset'],
-            lambda name,_,cmd: self.table_symbol_lv_update(
-                name,
-                self.table_symbol_VJ_lv_entry_value,
-                cmd
-            ))
-        self.table_symbol_VJ_exp_entry_value = tk.StringVar(
-            name = 'VJ_Symbol_exp'
-            )
-        self.table_symbol_VJ_exp_entry.configure(
-            textvariable = self.table_symbol_VJ_exp_entry_value
-            )
-        self.table_symbol_VJ_exp_entry_value.trace_add(
-            ['write','read','unset'],
-            lambda name,_,cmd: self.table_symbol_exp_update(
-                name,
-                self.table_symbol_VJ_exp_entry_value,
-                cmd
-            ))
 
-        self.table_symbol_CC_lv_entry_value = tk.StringVar()
-        self.table_symbol_CC_lv_entry.configure(
-            textvariable = self.table_symbol_CC_lv_entry_value
-        )
-        self.table_symbol_CC_exp_entry_value = tk.StringVar()
-        self.table_symbol_CC_exp_entry.configure(
-            textvariable = self.table_symbol_CC_exp_entry_value
-        )
+        def _arcane_symbols_init(name, func, entry, update):
+            func = tk.StringVar(
+                name = name,
+                )
+            entry.configure(
+                textvariable = func
+                )
+            func.trace_add(
+                ['write','read','unset'],
+                lambda name,_,cmd: update(
+                    name,
+                    func,
+                    cmd
+                ))
+            self.ARC_symbols[func._name] = 0
 
-        self.table_symbol_Lach_lv_entry_value = tk.StringVar()
-        self.table_symbol_Lach_lv_entry.configure(
-            textvariable = self.table_symbol_Lach_lv_entry_value
-        )
-        self.table_symbol_Lach_exp_entry_value = tk.StringVar()
-        self.table_symbol_Lach_exp_entry.configure(
-            textvariable = self.table_symbol_Lach_exp_entry_value
-        )
+        _arcane_symbols_init('VJ_Symbol_lv_SV',
+                             self.ARC_symbols['VJ_Symbol_lv_SV'],
+                             self.table_symbol_VJ_lv_entry,
+                             self.table_symbol_lv_update)
 
-        self.table_symbol_Arcana_lv_entry_value = tk.StringVar()
-        self.table_symbol_Arcana_lv_entry.configure(
-            textvariable = self.table_symbol_Arcana_lv_entry_value
-        )
-        self.table_symbol_Arcana_exp_entry_value = tk.StringVar()
-        self.table_symbol_Arcana_exp_entry.configure(
-            textvariable = self.table_symbol_Arcana_exp_entry_value
-        )
+        _arcane_symbols_init('VJ_Symbol_exp_SV',
+                             self.ARC_symbols['VJ_Symbol_exp_SV'],
+                             self.table_symbol_VJ_exp_entry,
+                             self.table_symbol_exp_update)
 
-        self.table_symbol_Morass_lv_entry_value = tk.StringVar()
-        self.table_symbol_Morass_lv_entry.configure(
-            textvariable = self.table_symbol_Morass_lv_entry_value
-        )
-        self.table_symbol_Morass_exp_entry_value = tk.StringVar()
-        self.table_symbol_Morass_exp_entry.configure(
-            textvariable = self.table_symbol_Morass_exp_entry_value
-        )
+        _arcane_symbols_init('CC_Symbol_lv_SV',
+                             self.ARC_symbols['CC_Symbol_lv_SV'],
+                             self.table_symbol_CC_lv_entry,
+                             self.table_symbol_lv_update)
 
-        self.table_symbol_Esfera_lv_entry_value = tk.StringVar()
-        self.table_symbol_Esfera_lv_entry.configure(
-            textvariable = self.table_symbol_Esfera_lv_entry_value
-        )
-        self.table_symbol_Esfera_exp_entry_value = tk.StringVar()
-        self.table_symbol_Esfera_exp_entry.configure(
-            textvariable = self.table_symbol_Esfera_exp_entry_value
-        )
+        _arcane_symbols_init('CC_Symbol_exp_SV',
+                             self.ARC_symbols['CC_Symbol_exp_SV'],
+                             self.table_symbol_CC_exp_entry,
+                             self.table_symbol_exp_update)
+
+        _arcane_symbols_init('LA_Symbol_lv_SV',
+                             self.ARC_symbols['LA_Symbol_lv_SV'],
+                             self.table_symbol_LA_lv_entry,
+                             self.table_symbol_lv_update)
+
+        _arcane_symbols_init('LA_Symbol_exp_SV',
+                             self.ARC_symbols['LA_Symbol_exp_SV'],
+                             self.table_symbol_LA_exp_entry,
+                             self.table_symbol_exp_update)
+
+        _arcane_symbols_init('AR_Symbol_lv_SV',
+                             self.ARC_symbols['AR_Symbol_lv_SV'],
+                             self.table_symbol_AR_lv_entry,
+                             self.table_symbol_lv_update)
+
+        _arcane_symbols_init('AR_Symbol_exp_SV',
+                             self.ARC_symbols['AR_Symbol_exp_SV'],
+                             self.table_symbol_AR_exp_entry,
+                             self.table_symbol_exp_update)
+
+        _arcane_symbols_init('MO_Symbol_lv_SV',
+                             self.ARC_symbols['MO_Symbol_lv_SV'],
+                             self.table_symbol_MO_lv_entry,
+                             self.table_symbol_lv_update)
+
+        _arcane_symbols_init('MO_Symbol_exp_SV',
+                             self.ARC_symbols['MO_Symbol_exp_SV'],
+                             self.table_symbol_MO_exp_entry,
+                             self.table_symbol_exp_update)
+
+        _arcane_symbols_init('ES_Symbol_lv_SV',
+                             self.ARC_symbols['ES_Symbol_lv_SV'],
+                             self.table_symbol_ES_lv_entry,
+                             self.table_symbol_lv_update)
+
+        _arcane_symbols_init('ES_Symbol_exp_SV',
+                             self.ARC_symbols['ES_Symbol_exp_SV'],
+                             self.table_symbol_ES_exp_entry,
+                             self.table_symbol_exp_update)
 
     def table_symbol_lv_update(self, *args):
         print('ArcaneForce.Function.table_symbol_lv_update()')

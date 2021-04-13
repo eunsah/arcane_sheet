@@ -8,6 +8,7 @@ import shelve
 from datetime import datetime, timedelta
 import dbm
 import os
+import collections
 
 WIDTH = 720
 HEIGHT = 450
@@ -15,7 +16,7 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 default_text = ('Inconsolata', 12)
 default_title = ('Inconsolata', 16)
 symbol_max_level = 20
-ARC_symbols = [(None, None)]*6
+ARC_symbols = collections.defaultdict(int)
 symbol_exp = [
     1,      11,     15,     20,     27,
     36,     47,     60,     75,     92,
@@ -539,85 +540,6 @@ class ArcaneForce(tk.Frame):
             args[1].set(int(num))
         print (args[2]+' to '+args[0]+' value: '+str(num))
 
-    # def update_VJ_lv(self,*args):
-    #     print('ArcaneForce.Function.update_VJ_lv()')
-    #     num = int(self.table_symbol_VJ_lv_entry_value.get())
-    #     if self.table_symbol_VJ_lv_entry_value.get() != '':
-    #         if int(num) > symbol_max_level:
-    #             num = symbol_max_level
-    #         self.table_symbol_VJ_lv_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update_VJ_exp(self,*args):
-    #     print('ArcaneForce.Function.update_VJ_exp()')
-    #     num = int(self.table_symbol_VJ_exp_entry_value.get())
-    #     if self.table_symbol_VJ_exp_entry_value.get() != '':
-    #         if int(num) > symbol_exp[-1]:
-    #             num = symbol_exp[-1]
-    #         self.table_symbol_VJ_exp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update_CC_lv(self,*args):
-    #     print('ArcaneForce.Function.update_CC_lv()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update_CC_exp(self,*args):
-    #     print('ArcaneForce.Function.update_CC_exp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update__lvexp(self,*args):
-    #     print('ArcaneForce.Function.update__lvexp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update__lvexp(self,*args):
-    #     print('ArcaneForce.Function.update__lvexp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update__lvexp(self,*args):
-    #     print('ArcaneForce.Function.update__lvexp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update__lvexp(self,*args):
-    #     print('ArcaneForce.Function.update__lvexp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update__lvexp(self,*args):
-    #     print('ArcaneForce.Function.update__lvexp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update__lvexp(self,*args):
-    #     print('ArcaneForce.Function.update__lvexp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update__lvexp(self,*args):
-    #     print('ArcaneForce.Function.update__lvexp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-    # def update__lvexp(self,*args):
-    #     print('ArcaneForce.Function.update__lvexp()')
-    #     num = int(self.table_symbol__lvexp_entry_value.get())
-    #     self.table_symbol__lvexp_entry_value.set(int(num))
-    #     print (args[2]+' to '+args[0]+' value:', num)
-
-
     def reset_combobox_selection(self, this):
         print ('ArcaneForce.Function.reset_combo_selection()')
         print ('From :', this.widget)
@@ -654,6 +576,7 @@ class ArcaneForce(tk.Frame):
 
     def exit(self):
         print ('ArcaneForce.Function.exit()')
+        # needs to save defaultdict
         self.master.destroy()
 
 def main():

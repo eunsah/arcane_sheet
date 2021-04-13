@@ -14,7 +14,9 @@ HEIGHT = 450
 current_path = os.path.dirname(os.path.abspath(__file__))
 default_text = ('Inconsolata', 12)
 default_title = ('Inconsolata', 16)
-symbol_count = [
+symbol_max_level = 20
+ARC_symbols = [(None, None)]*6
+symbol_exp = [
     1,      11,     15,     20,     27,
     36,     47,     60,     75,     92,
     111,    132,    155,    180,    207,
@@ -446,57 +448,69 @@ class ArcaneForce(tk.Frame):
         self.arcane_symbols_init()
 
     def arcane_symbols_init(self):
-        self.table_symbol_VJ_lv_entry_value = tk.StringVar(value = '0')
+        print ('ArcaneForce.Function.arcane_symbols_init()')
+        self.table_symbol_VJ_lv_entry_value = tk.StringVar(
+            name = 'VJ_Symbol_lv',
+            )
         self.table_symbol_VJ_lv_entry.configure(
             textvariable = self.table_symbol_VJ_lv_entry_value
-        )
-        self.table_symbol_VJ_lv_entry_value.trace_add('write', self.reset_entry_box_number)
-        self.table_symbol_VJ_exp_entry_value = tk.StringVar(value = '0')
+            )
+        self.table_symbol_VJ_lv_entry_value.trace_add(
+            ['write','read','unset'],
+            self.update_VJ_lv
+            )
+        self.table_symbol_VJ_exp_entry_value = tk.StringVar(
+            name = 'VJ_Symbol_exp'
+            )
         self.table_symbol_VJ_exp_entry.configure(
             textvariable = self.table_symbol_VJ_exp_entry_value
-        )
+            )
+        self.table_symbol_VJ_exp_entry_value.trace_add(
+            ['write','read','unset'],
+            self.update_VJ_exp
+            )
 
-        self.table_symbol_CC_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_CC_lv_entry_value = tk.StringVar()
         self.table_symbol_CC_lv_entry.configure(
             textvariable = self.table_symbol_CC_lv_entry_value
         )
-        self.table_symbol_CC_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_CC_exp_entry_value = tk.StringVar()
         self.table_symbol_CC_exp_entry.configure(
             textvariable = self.table_symbol_CC_exp_entry_value
         )
 
-        self.table_symbol_Lach_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Lach_lv_entry_value = tk.StringVar()
         self.table_symbol_Lach_lv_entry.configure(
             textvariable = self.table_symbol_Lach_lv_entry_value
         )
-        self.table_symbol_Lach_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Lach_exp_entry_value = tk.StringVar()
         self.table_symbol_Lach_exp_entry.configure(
             textvariable = self.table_symbol_Lach_exp_entry_value
         )
 
-        self.table_symbol_Arcana_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Arcana_lv_entry_value = tk.StringVar()
         self.table_symbol_Arcana_lv_entry.configure(
             textvariable = self.table_symbol_Arcana_lv_entry_value
         )
-        self.table_symbol_Arcana_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Arcana_exp_entry_value = tk.StringVar()
         self.table_symbol_Arcana_exp_entry.configure(
             textvariable = self.table_symbol_Arcana_exp_entry_value
         )
 
-        self.table_symbol_Morass_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Morass_lv_entry_value = tk.StringVar()
         self.table_symbol_Morass_lv_entry.configure(
             textvariable = self.table_symbol_Morass_lv_entry_value
         )
-        self.table_symbol_Morass_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Morass_exp_entry_value = tk.StringVar()
         self.table_symbol_Morass_exp_entry.configure(
             textvariable = self.table_symbol_Morass_exp_entry_value
         )
 
-        self.table_symbol_Esfera_lv_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Esfera_lv_entry_value = tk.StringVar()
         self.table_symbol_Esfera_lv_entry.configure(
             textvariable = self.table_symbol_Esfera_lv_entry_value
         )
-        self.table_symbol_Esfera_exp_entry_value = tk.StringVar(value = '0')
+        self.table_symbol_Esfera_exp_entry_value = tk.StringVar()
         self.table_symbol_Esfera_exp_entry.configure(
             textvariable = self.table_symbol_Esfera_exp_entry_value
         )
@@ -504,20 +518,28 @@ class ArcaneForce(tk.Frame):
     def update_VJ_lv(self,*args):
         print('ArcaneForce.Function.update_VJ_lv()')
         num = int(self.table_symbol_VJ_lv_entry_value.get())
-        self.table_symbol_VJ_lv_entry_value.set(num)
+        if self.table_symbol_VJ_lv_entry_value.get() != '':
+            if int(num) > symbol_max_level:
+                num = symbol_max_level
+            self.table_symbol_VJ_lv_entry_value.set(int(num))
+        print (args[2]+' to '+args[0]+' value:', num)
 
     def update_VJ_exp(self,*args):
         print('ArcaneForce.Function.update_VJ_exp()')
         num = int(self.table_symbol_VJ_exp_entry_value.get())
-        self.table_symbol_VJ_exp_entry_value.set(num)
+        if self.table_symbol_VJ_exp_entry_value.get() != '':
+            if int(num) > symbol_exp[-1]:
+                num = symbol_exp[-1]
+            self.table_symbol_VJ_exp_entry_value.set(int(num))
+        print (args[2]+' to '+args[0]+' value:', num)
 
-    def update__lvexp(self,*args):
-        print('ArcaneForce.Function.update__lvexp()')
+    def update_CC_lv(self,*args):
+        print('ArcaneForce.Function.update_CC_lv()')
         num = int(self.table_symbol__lvexp_entry_value.get())
         self.table_symbol__lvexp_entry_value.set(num)
 
-    def update__lvexp(self,*args):
-        print('ArcaneForce.Function.update__lvexp()')
+    def update_CC_exp(self,*args):
+        print('ArcaneForce.Function.update_CC_exp()')
         num = int(self.table_symbol__lvexp_entry_value.get())
         self.table_symbol__lvexp_entry_value.set(num)
 

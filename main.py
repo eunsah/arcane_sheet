@@ -429,12 +429,9 @@ class ArcaneForce(tk.Frame):
 
         s = ttk.Style()
         s.configure('.', font=default_text)
-        # no_symbol = '+0 Symbols'
 
         def button_callback(key):
             print (self.ARC_symbols[key+'IV'].get())
-            # self.ARC_symbols[key+'SV'].set(
-            #     '+'+str(self.ARC_symbols[key+'IV'].get())+' Symbols')
             self.master_update()
 
         def _daily_quest_cb_bind(name, onvalue, box, IV, row, column):
@@ -451,88 +448,68 @@ class ArcaneForce(tk.Frame):
                 offvalue = 0,
                 command = lambda : button_callback(name))
             box.configure(variable = IV)
-            # label.configure(textvariable = SV)
             self.ARC_symbols[prefix+'F'].grid(row=row, column=column)
             box.grid(row=0, column=1,
                           sticky = 'w')
-            # label
 
         prefix = 'VJ_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 8,
             box = self.ARC_symbols[prefix[0:-1]],
-            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            # SV = self.ARC_symbols[prefix+'SV'],
             row = 1, column = 3)
 
         prefix = 'CC_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 4,
             box = self.ARC_symbols[prefix[0:-1]],
-            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            # SV = self.ARC_symbols[prefix+'SV'],
             row = 2, column = 3)
 
         prefix = 'LA_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 4,
             box = self.ARC_symbols[prefix[0:-1]],
-            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            # SV = self.ARC_symbols[prefix+'SV'],
             row = 3, column = 3)
 
         prefix = 'AR_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 8,
             box = self.ARC_symbols[prefix[0:-1]],
-            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            # SV = self.ARC_symbols[prefix+'SV'],
             row = 4, column = 3)
 
         prefix = 'MO_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 8,
             box = self.ARC_symbols[prefix[0:-1]],
-            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            # SV = self.ARC_symbols[prefix+'SV'],
             row = 5, column = 3)
 
         prefix = 'ES_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 8,
             box = self.ARC_symbols[prefix[0:-1]],
-            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            # SV = self.ARC_symbols[prefix+'SV'],
             row = 6, column = 3)
 
     def table_symbol_daily_additional_income(self):

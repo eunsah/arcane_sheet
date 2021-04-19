@@ -35,7 +35,7 @@ symbol_cost_discounted = [
     91_640_000,     98_240_000,     104_840_000,    111_440_000,
     118_040_000,    124_640_000,    131_240_000,    137_840_000]
 symbol_prefix = ['VJ', 'CC', 'LA', 'AR', 'MO', 'ES']
-symbol_id = ['Vanishing Journey', 'ChuChu Island', 'Lachelein', 'Arcana', 'Morass', 'Esfera']
+symbol_id = ['Vanishing', 'ChuChu', 'Lachelein', 'Arcana', 'Morass', 'Esfera']
 
 class ArcaneForce(tk.Frame):
     '''
@@ -95,23 +95,24 @@ class ArcaneForce(tk.Frame):
         self.handle_current_arcaneforce()
 
         ### Estimated Timeline Label Frame
-        self.current_arcane_dailies = tk.LabelFrame(
+        self.current_timeline = tk.LabelFrame(
             master = self.body,
             text = ' Estimated Timeline ',
             font = default_title,
             bd = 1, relief = 'ridge',
             width = WIDTH*81/120, height = HEIGHT*.44)
-        self.current_arcane_dailies.place(x=10, y=HEIGHT*.44)
-        # self.current_arcane_dailies.pack_propagate(0)
+        self.current_timeline.place(x=10, y=HEIGHT*.44)
+        # self.current_timeline.pack_propagate(0)
+        self.handle_table_timeline()
 
 ### == functions for arcane symbols =============
     def handle_table_arcanesymbols(self):
         self.table_symbol_name = ttk.Label(
             master = self.current_arcane_symbol,
-            text = 'Symbol Name',
+            text = '',
             font = default_text,
             anchor = tk.S,
-            width = 16)
+            width = 12)
         self.table_symbol_name.grid(row=0,column=0)
 
         self.table_symbol_level = ttk.Label(
@@ -124,7 +125,7 @@ class ArcaneForce(tk.Frame):
 
         self.table_symbol_exp = ttk.Label(
             master = self.current_arcane_symbol,
-            text = 'Exp',
+            text = 'Exp.',
             font = default_text,
             anchor = tk.S,
             width = 4)
@@ -156,13 +157,13 @@ class ArcaneForce(tk.Frame):
 
         ## --- title --------------------------------
 
-        symbol_width = 20
+        symbol_width = 16
         symbol_padding = 1
         symbol_entry_width = 3
 
         self.table_symbol_VJ = ttk.Label(
             master = self.current_arcane_symbol,
-            text = ' '+symbol_id[0],
+            text = '   '+symbol_id[0],
             font = default_text,
             anchor = tk.W,
             width = symbol_width,
@@ -187,7 +188,7 @@ class ArcaneForce(tk.Frame):
 
         self.table_symbol_CC = ttk.Label(
             master = self.current_arcane_symbol,
-            text = ' '+symbol_id[1],
+            text = '   '+symbol_id[1],
             font = default_text,
             anchor = tk.W,
             width = symbol_width,
@@ -212,7 +213,7 @@ class ArcaneForce(tk.Frame):
 
         self.table_symbol_LA = ttk.Label(
             master = self.current_arcane_symbol,
-            text = ' '+symbol_id[2],
+            text = '   '+symbol_id[2],
             font = default_text,
             anchor = tk.W,
             width = symbol_width,
@@ -237,7 +238,7 @@ class ArcaneForce(tk.Frame):
 
         self.table_symbol_AR = ttk.Label(
             master = self.current_arcane_symbol,
-            text = ' '+symbol_id[3],
+            text = '   '+symbol_id[3],
             font = default_text,
             anchor = tk.W,
             width = symbol_width,
@@ -262,7 +263,7 @@ class ArcaneForce(tk.Frame):
 
         self.table_symbol_MO = ttk.Label(
             master = self.current_arcane_symbol,
-            text = ' '+symbol_id[4],
+            text = '   '+symbol_id[4],
             font = default_text,
             anchor = tk.W,
             width = symbol_width,
@@ -287,7 +288,7 @@ class ArcaneForce(tk.Frame):
 
         self.table_symbol_ES = ttk.Label(
             master = self.current_arcane_symbol,
-            text = ' '+symbol_id[5],
+            text = '   '+symbol_id[5],
             font = default_text,
             anchor = tk.W,
             width = symbol_width,
@@ -428,19 +429,21 @@ class ArcaneForce(tk.Frame):
 
         s = ttk.Style()
         s.configure('.', font=default_text)
-        no_symbol = '+0 Symbols'
+        # no_symbol = '+0 Symbols'
 
         def button_callback(key):
             print (self.ARC_symbols[key+'IV'].get())
-            self.ARC_symbols[key+'SV'].set(
-                '+'+str(self.ARC_symbols[key+'IV'].get())+' Symbols')
+            # self.ARC_symbols[key+'SV'].set(
+            #     '+'+str(self.ARC_symbols[key+'IV'].get())+' Symbols')
             self.master_update()
 
-        def _daily_quest_cb_bind(name, onvalue, box, label, IV, SV, row, column):
-            label = tk.Label(
+        def _daily_quest_cb_bind(name, onvalue, box, IV, row, column):
+            tk.Label(
                 master = self.ARC_symbols[name+'F'],
-                font = default_text
-            )
+                font = default_text,
+                text = '+'+str(onvalue)+' Symbols'
+            ).grid(row=0, column=0,
+                       sticky = 'w', padx=(4,0))
             box = ttk.Checkbutton(
                 master = self.ARC_symbols[name+'F'],
                 takefocus = False,
@@ -448,89 +451,88 @@ class ArcaneForce(tk.Frame):
                 offvalue = 0,
                 command = lambda : button_callback(name))
             box.configure(variable = IV)
-            label.configure(textvariable = SV)
+            # label.configure(textvariable = SV)
             self.ARC_symbols[prefix+'F'].grid(row=row, column=column)
             box.grid(row=0, column=1,
                           sticky = 'w')
-            label.grid(row=0, column=0,
-                       sticky = 'w', padx=(4,0))
+            # label
 
         prefix = 'VJ_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
+        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 8,
             box = self.ARC_symbols[prefix[0:-1]],
-            label = self.ARC_symbols[prefix+'L'],
+            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            SV = self.ARC_symbols[prefix+'SV'],
+            # SV = self.ARC_symbols[prefix+'SV'],
             row = 1, column = 3)
 
         prefix = 'CC_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
+        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 4,
             box = self.ARC_symbols[prefix[0:-1]],
-            label = self.ARC_symbols[prefix+'L'],
+            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            SV = self.ARC_symbols[prefix+'SV'],
+            # SV = self.ARC_symbols[prefix+'SV'],
             row = 2, column = 3)
 
         prefix = 'LA_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
+        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 4,
             box = self.ARC_symbols[prefix[0:-1]],
-            label = self.ARC_symbols[prefix+'L'],
+            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            SV = self.ARC_symbols[prefix+'SV'],
+            # SV = self.ARC_symbols[prefix+'SV'],
             row = 3, column = 3)
 
         prefix = 'AR_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
+        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 8,
             box = self.ARC_symbols[prefix[0:-1]],
-            label = self.ARC_symbols[prefix+'L'],
+            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            SV = self.ARC_symbols[prefix+'SV'],
+            # SV = self.ARC_symbols[prefix+'SV'],
             row = 4, column = 3)
 
         prefix = 'MO_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
+        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 8,
             box = self.ARC_symbols[prefix[0:-1]],
-            label = self.ARC_symbols[prefix+'L'],
+            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            SV = self.ARC_symbols[prefix+'SV'],
+            # SV = self.ARC_symbols[prefix+'SV'],
             row = 5, column = 3)
 
         prefix = 'ES_Quest_'
         self.ARC_symbols[prefix+'F'] = tk.Frame(self.current_arcane_symbol)
         self.ARC_symbols[prefix+'IV'] = tk.IntVar(value = 0)
-        self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
+        # self.ARC_symbols[prefix+'SV'] = tk.StringVar(value = no_symbol)
         _daily_quest_cb_bind(
             name = prefix,
             onvalue = 8,
             box = self.ARC_symbols[prefix[0:-1]],
-            label = self.ARC_symbols[prefix+'L'],
+            # label = self.ARC_symbols[prefix+'L'],
             IV = self.ARC_symbols[prefix+'IV'],
-            SV = self.ARC_symbols[prefix+'SV'],
+            # SV = self.ARC_symbols[prefix+'SV'],
             row = 6, column = 3)
 
     def table_symbol_daily_additional_income(self):
@@ -649,8 +651,78 @@ class ArcaneForce(tk.Frame):
 
 ### == functions for estimated timeline =========
     def handle_table_timeline(self):
-        pass
+        print ('ArcaneForce.Function.handle_table_timeline()')
 
+        def symbol_id_grid(name, row):
+            ttk.Label(
+                master = self.current_timeline,
+                text = '   '+name,
+                font = default_text,
+                anchor = tk.W,
+                width = symbol_width,
+                padding = symbol_padding).grid(row=row, column=0)
+
+        symbol_width = 16
+        symbol_padding = 3
+
+        ttk.Label(
+            master = self.current_timeline,
+            text = '',
+            font = default_text,
+            anchor = tk.S,
+            width = symbol_width,
+            padding = symbol_padding).grid(row=0, column=0)
+
+        ttk.Label(
+            master = self.current_timeline,
+            text = 'Lv.',
+            font = default_text,
+            anchor = tk.S,
+            width = 4).grid(row=0, column=1)
+
+        ttk.Label(
+            master = self.current_timeline,
+            text = 'Exp.',
+            font = default_text,
+            anchor = tk.S,
+            width = 4).grid(row=0, column=2)
+
+        ttk.Label(
+            master = self.current_timeline,
+            text = 'Max date',
+            font = default_text,
+            anchor = tk.S,
+            width = 20).grid(row=0, column=3)
+
+        ttk.Label(
+            master = self.current_timeline,
+            text = 'Selector',
+            font = default_text,
+            anchor = tk.S,
+            width = 16).grid(row=0, column=4)
+
+        ttk.Label(
+            master = self.current_timeline,
+            text = 'New max date',
+            font = default_text,
+            anchor = tk.S,
+            width = 20).grid(row=0, column=5)
+
+        count = 0
+        for name in symbol_id:
+            count += 1
+            symbol_id_grid(name, count)
+
+        ttk.Label(
+            master = self.current_timeline,
+            text = '',
+            font = default_text,
+            anchor = tk.W,
+            width = symbol_width,
+            padding = symbol_padding).grid(row=7, column=0)
+
+        for prefix in symbol_prefix:
+            pass
 
 
 ### == functions for arcane force  ==============
@@ -773,25 +845,26 @@ class ArcaneForce(tk.Frame):
         self.current_arcaneforce_equip_combobox.configure(
             textvariable=self.current_arcaneforce_equip_value)
 
-
 ### == class functions
     def master_update(self):
         print ('ArcaneForce.Function.master_update()')
         self._income_update()
         self._arcane_update()
+        self._raw_exp_update()
 
     def _income_update(self):
         for prefix in symbol_prefix:
-            if self.ARC_symbols[prefix+'_A_Quest_V'] != 0:
+            daily = self.ARC_symbols[prefix+'_Quest_IV'].get()
+            adaily = self.ARC_symbols[prefix+'_A_Quest_V']
+            if adaily > 0:
                 if prefix == 'LA':
-                    self.ARC_symbols[prefix+'_DailyIncome'] =\
-                    self.ARC_symbols[prefix+'_Quest_IV'].get() + (self.ARC_symbols[prefix+'_A_Quest_V']/30)
+                    adaily = (adaily+24) / 30
                 elif prefix == 'AR':
-                    self.ARC_symbols[prefix+'_DailyIncome'] =\
-                    self.ARC_symbols[prefix+'_Quest_IV'].get() + (self.ARC_symbols[prefix+'_A_Quest_V']/3)
+                    adaily = adaily / 30
                 else:
-                    self.ARC_symbols[prefix+'_DailyIncome'] =\
-                    self.ARC_symbols[prefix+'_Quest_IV'].get() + self.ARC_symbols[prefix+'_A_Quest_V']
+                    pass
+            daily += adaily
+            self.ARC_symbols[prefix+'_DailyIncome'] = daily
 
     def _arcane_update(self):
         num = 0
@@ -807,7 +880,13 @@ class ArcaneForce(tk.Frame):
 
     def _raw_exp_update(self):
         for prefix in symbol_prefix:
-            pass
+            raw_exp = 0
+            if self.ARC_symbols[prefix+'_Symbol_lv_SV'] != '' and self.ARC_symbols[prefix+'_Symbol_lv_SV'] > 0:
+                level = self.ARC_symbols[prefix+'_Symbol_lv_SV']
+                raw_exp += sum([count for count in symbol_exp[:level]])
+            if self.ARC_symbols[prefix+'_Symbol_exp_SV'] != '' and self.ARC_symbols[prefix+'_Symbol_exp_SV'] > 0:
+                raw_exp += self.ARC_symbols[prefix+'_Symbol_exp_SV']
+            self.ARC_symbols[prefix+'_raw'] = raw_exp
 
     def validate_int_only(self, d, i, P, s, S, v, V, W):
         print ('ArcaneForce.Function.validate_int_only()')
@@ -849,13 +928,16 @@ class ArcaneForce(tk.Frame):
             print ('Equip:', self.ARC_symbols['Equip'])
 
             for prefix in symbol_prefix:
+                print (prefix)
                 print ('lv:',self.ARC_symbols[prefix+'_Symbol_lv_SV'])
-                print('exp:', self.ARC_symbols[prefix+'_Symbol_exp_SV'])
+                print ('exp:', self.ARC_symbols[prefix+'_Symbol_exp_SV'])
                 print ('daily:', self.ARC_symbols[prefix+'_Quest_IV'].get())
                 print ('daily additional', self.ARC_symbols[prefix+'_A_Quest_V'])
+                print ('raw exp', self.ARC_symbols[prefix+'_raw'])
+                print ('daily income', self.ARC_symbols[prefix+'_DailyIncome'])
 
         self.test_button = tk.Button(master = self.body, text='test', command=test_callback)
-        self.test_button.place(x=500,y=200)
+        self.test_button.place(x=500,y=160)
 
 def main():
     root = tk.Tk()

@@ -83,20 +83,20 @@ class ArcaneForce(tk.Frame):
             master = self.body,
             text = ' Arcane Symbols ',
             font = default_title,
-            bd = 1, relief = 'ridge',
-            width = WIDTH/3, height = HEIGHT*.41)
-        self.current_arcane_symbol.place(x=10,y=HEIGHT*.01)
+            bd = 2, relief = 'ridge',
+            width = WIDTH/3, height = HEIGHT*.42)
+        self.current_arcane_symbol.place(x=35,y=0)
         self.handle_table_arcanesymbols()
 
         ### Arcane Force Label Frame
-        # self.current_arcaneforce = tk.LabelFrame(
-        #     master = self.body,
-        #     text = ' Arcane Force ',
-        #     font = default_title,
-        #     bd = 1, relief = 'ridge',
-        #     width = WIDTH/3, height = HEIGHT*.39)
-        # self.current_arcaneforce.place(x=(WIDTH*2/3)+13, y=HEIGHT*.01)
-        # self.handle_current_arcaneforce()
+        self.options_labelframe = tk.LabelFrame(
+            master = self.body,
+            text = ' Options ',
+            font = default_title,
+            bd = 2, relief = 'ridge',
+            width = WIDTH/5+45, height = HEIGHT*.42)
+        self.options_labelframe.place(x=(WIDTH*2/3)+13, y=0)
+        self.handle_options()
 
         ### Estimated Timeline Label Frame
         # self.master_update()
@@ -104,9 +104,9 @@ class ArcaneForce(tk.Frame):
             master = self.body,
             text = ' Estimated Timeline ',
             font = default_title,
-            bd = 1, relief = 'ridge',
+            bd = 2, relief = 'ridge',
             width = WIDTH*81/120, height = HEIGHT*.44)
-        self.current_timeline.place(x=10, y=HEIGHT*.44)
+        self.current_timeline.place(x=35, y=HEIGHT*.43)
         # self.current_timeline.pack_propagate(0)
         self.handle_table_timeline()
 
@@ -751,6 +751,7 @@ class ArcaneForce(tk.Frame):
             width = symbol_width,
             padding = symbol_padding).grid(row=7, column=0)
 
+        # raw exp
         count = 1
         for prefix in symbol_prefix:
             self.ARC_objects[prefix+'_raw_TL'] = tk.IntVar(value = self.ARC_symbols[prefix+'_raw'])
@@ -762,6 +763,7 @@ class ArcaneForce(tk.Frame):
             ).grid(row = count, column = 1)
             count += 1
 
+        # days
         count = 1
         for prefix in symbol_prefix:
             self.ARC_objects[prefix+'_days'] = tk.StringVar(value='-')
@@ -773,6 +775,7 @@ class ArcaneForce(tk.Frame):
             ).grid(row = count, column = 2)
             count += 1
 
+        # date
         count = 1
         for prefix in symbol_prefix:
             self.ARC_objects[prefix+'_date_now'] = tk.StringVar(value='-')
@@ -784,6 +787,7 @@ class ArcaneForce(tk.Frame):
             ).grid(row = count, column = 3)
             count += 1
 
+        # selector
         count = 1
         for prefix in symbol_prefix:
             self.ARC_objects[prefix+'_selector'] = tk.StringVar(value='0')
@@ -795,6 +799,7 @@ class ArcaneForce(tk.Frame):
             ).grid(row = count, column = 4)
             count += 1
 
+        # future
         count = 1
         for prefix in symbol_prefix:
             self.ARC_objects[prefix+'_future'] = tk.StringVar(value='-')
@@ -806,6 +811,7 @@ class ArcaneForce(tk.Frame):
             ).grid(row = count, column = 5)
             count += 1
 
+        # date future
         count = 1
         for prefix in symbol_prefix:
             self.ARC_objects[prefix+'_date_future'] = tk.StringVar(value='-')
@@ -817,6 +823,7 @@ class ArcaneForce(tk.Frame):
             ).grid(row = count, column = 6)
             count += 1
 
+        # future level
         count = 1
         for prefix in symbol_prefix:
             self.ARC_objects[prefix+'_future_lv'] = tk.StringVar(value='-')
@@ -828,6 +835,7 @@ class ArcaneForce(tk.Frame):
             ).grid(row = count, column = 7)
             count += 1
 
+        # future exp
         count = 1
         for prefix in symbol_prefix:
             self.ARC_objects[prefix+'_future_exp'] = tk.StringVar(value='-')
@@ -839,133 +847,31 @@ class ArcaneForce(tk.Frame):
             ).grid(row = count, column = 8)
             count += 1
 
+### == functions for options  ==============
+    def handle_options(self):
+        print ('ArcaneForce.Function.handle_options()')
+        ttk.Label(
+            master = self.options_labelframe,
+            font = default_text,
+            text = '   Arcane Force :'
+        ).grid(row=0, column=0)
+
+        self.options_labelframe_symbol_value = tk.StringVar(value = 0)
+        ttk.Label(
+            master = self.options_labelframe,
+            font = default_title,
+            textvariable = self.options_labelframe_symbol_value,
+            width = 10
+        ).grid(row=0, column=1)
 
 
-### == functions for arcane force  ==============
-    # def handle_current_arcaneforce(self):
-    #     print ('ArcaneForce.Function.handle_current_arcaneforce()')
 
-    #     def combobox_selected(this, key):
-    #         print ('ArcaneForce.Function.combobox_selected()')
-    #         print ('selected=', this.widget.get(), sep='')
-    #         self.ARC_symbols[key] = int(this.widget.get())
-
-    #     def auto_text_space(text, totalsizeoftext):
-    #         return '   ' + text + ' '*(totalsizeoftext-(len(text)+7))
-
-    #     set_text_space = 100
-    #     self.current_arcaneforce_symbol = tk.Label(
-    #         master = self.current_arcaneforce,
-    #         text = auto_text_space('Symbol:', set_text_space),
-    #         font = default_text,
-    #         anchor = 'w')
-    #     self.current_arcaneforce_symbol.pack(anchor='w', pady=(5, 0))
-    #     self.current_arcaneforce_symbol_value = tk.StringVar(value='0')
-    #     self.current_arcaneforce_symbol_entry = ttk.Entry(
-    #         master = self.current_arcaneforce_symbol,
-    #         font = default_text,
-    #         width = int(WIDTH/90),
-    #         justify = tk.CENTER,
-    #         state = 'disabled')
-    #     self.current_arcaneforce_symbol_entry.configure(
-    #         textvariable=self.current_arcaneforce_symbol_value)
-    #     self.current_arcaneforce_symbol_entry.pack(padx=(140, 10), anchor='se')
-
-    #     self.current_arcaneforce_hyper = tk.Label(
-    #         master = self.current_arcaneforce,
-    #         text = auto_text_space('Hyper Stats Lv.:', set_text_space),
-    #         font = default_text,
-    #         anchor = 'w')
-    #     self.current_arcaneforce_hyper.pack(anchor='w')
-    #     self.current_arcaneforce_hyper_combobox = ttk.Combobox(
-    #         master = self.current_arcaneforce_hyper,
-    #         font = default_text,
-    #         width = int(WIDTH/90)-2,
-    #         justify = tk.CENTER,
-    #         height = 5,
-    #         values = ['0', '1', '2', '3', '4',
-    #                   '5', '6', '7', '8', '9',
-    #                   '10', '11', '12', '13',
-    #                   '14', '15'],
-    #         state = 'readonly')
-
-    #     self.current_arcaneforce_hyper_combobox.pack(padx=(140, 10), anchor='se')
-    #     self.current_arcaneforce_hyper_combobox.bind('<<ComboboxSelected>>', lambda _: combobox_selected(_, 'Hyper'))
-
-    #     self.current_arcaneforce_guild = tk.Label(
-    #         master = self.current_arcaneforce,
-    #         text = auto_text_space('Guild Skill Lv.:', set_text_space),
-    #         font = default_text,
-    #         anchor = 'w')
-    #     self.current_arcaneforce_guild.pack(anchor='w')
-    #     self.current_arcaneforce_guild_combobox = ttk.Combobox(
-    #         master = self.current_arcaneforce_guild,
-    #         font = default_text,
-    #         width = int(WIDTH/90)-2,
-    #         justify = tk.CENTER,
-    #         height = 5,
-    #         values = ['0', '1', '2', '3', '4', '5', '6'],
-    #         state = 'readonly')
-
-    #     self.current_arcaneforce_guild_combobox.pack(padx=(140, 10), anchor='se')
-    #     self.current_arcaneforce_guild_combobox.bind('<<ComboboxSelected>>', lambda _: combobox_selected(_, 'Guild'))
-
-    #     self.current_arcaneforce_equip = tk.Label(
-    #         master = self.current_arcaneforce,
-    #         text = auto_text_space('Other AF source:', set_text_space),
-    #         font = default_text,
-    #         anchor = 'w')
-    #     self.current_arcaneforce_equip.pack(anchor='w', pady=(0, 10))
-    #     self.current_arcaneforce_equip_combobox = ttk.Combobox(
-    #         master = self.current_arcaneforce_equip,
-    #         font = default_text,
-    #         width = int(WIDTH/90)-2,
-    #         justify = tk.CENTER,
-    #         height = 5,
-    #         values = ['0', '30', '50', '60', '80'],
-    #         state = 'readonly')
-
-    #     self.current_arcaneforce_equip_combobox.pack(padx=(140, 10), anchor='se')
-    #     self.current_arcaneforce_equip_combobox.bind('<<ComboboxSelected>>', lambda _: combobox_selected(_, 'Equip'))
-
-    #     self.current_arcaneforce_init()
-    #     # --------------------------------------------------------------
-
-    #     # self.current_arcaneforce_total = tk.Label(
-    #     #     master = self.current_arcaneforce,
-    #     #     text = '  Total Arcane Force:',
-    #     #     font = ('Inconsolata', 14),
-    #     #     anchor = 'w'
-    #     # )
-    #     # self.current_arcaneforce_total.pack(anchor='w')
-    #     # self.current_arcaneforce_total_value = tk.StringVar(value='1350')
-    #     # self.current_arcaneforce_total_result = tk.Label(
-    #     #     master = self.current_arcaneforce_total,
-    #     #     font = ('Inconsolata', 18),
-    #     #     width = 4,
-    #     #     anchor = 'e'
-    #     # )
-    #     # self.current_arcaneforce_total_result.configure(
-    #     #     textvariable=self.current_arcaneforce_total_value
-    #     # )
-    #     # self.current_arcaneforce_total_result.pack(padx=(160, 10), anchor='se')
-
-    # def current_arcaneforce_init(self):
-    #     self.current_arcaneforce_hyper_value = tk.StringVar(value='0')
-    #     self.current_arcaneforce_hyper_combobox.configure(
-    #         textvariable=self.current_arcaneforce_hyper_value)
-    #     self.current_arcaneforce_guild_value = tk.StringVar(value='0')
-    #     self.current_arcaneforce_guild_combobox.configure(
-    #         textvariable=self.current_arcaneforce_guild_value)
-    #     self.current_arcaneforce_equip_value = tk.StringVar(value='0')
-    #     self.current_arcaneforce_equip_combobox.configure(
-    #         textvariable=self.current_arcaneforce_equip_value)
 
 ### == class functions
     def master_update(self):
         print ('ArcaneForce.Function.master_update()')
         self._income_update()
-        # self._arcane_update()
+        self._arcane_update()
         self._raw_exp_update()
         self._date_now_update()
         self._date_future_update()
@@ -994,7 +900,7 @@ class ArcaneForce(tk.Frame):
                 self.ARC_symbols['_SymbolForce'] += num
             else:
                 pass
-        self.current_arcaneforce_symbol_value.set(self.ARC_symbols['_SymbolForce'])
+        self.options_labelframe_symbol_value.set(self.ARC_symbols['_SymbolForce'])
 
     def _raw_exp_update(self):
         for prefix in symbol_prefix:
@@ -1033,9 +939,10 @@ class ArcaneForce(tk.Frame):
             selector = int(self.ARC_objects[prefix+'_selector'].get())
             new_raw = self.ARC_symbols[prefix+'_raw'] + selector
             req_exp = max_exp - new_raw
-            if req_exp == 0:
+            if req_exp <= 0:
                 self.ARC_objects[prefix+'_future'].set(value = 'Done')
                 self.ARC_objects[prefix+'_date_future'].set(value = self.today)
+                self.ARC_objects[prefix+'_futured'] = -1
             elif self.ARC_symbols[prefix+'_DailyIncome'] == 0:
                 self.ARC_objects[prefix+'_future'].set(value = '-')
                 self.ARC_objects[prefix+'_date_future'].set(value = 'Never')
@@ -1114,6 +1021,8 @@ class ArcaneForce(tk.Frame):
             select = 1000
             while select > 0:
                 top_val = max([self.ARC_objects[prefix+'_futured']  for prefix in symbol_prefix])
+                if top_val < 0:
+                    break
                 for prefix in symbol_prefix:
                     if self.ARC_objects[prefix+'_futured'] == top_val:
                         self.ARC_objects[prefix+'_selector'].set(int(self.ARC_objects[prefix+'_selector'].get())+1)

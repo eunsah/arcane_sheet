@@ -97,7 +97,7 @@ if __name__ == '__main__':
     get_all_date()
 
     print ('Sending Selectors')
-    a.distribute_selectors(4000)
+    a.distribute_selectors(2000)
 
     get_all_date()
 

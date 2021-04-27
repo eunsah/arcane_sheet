@@ -38,7 +38,7 @@ class ARC():
         self._income = income
         self._name = name
 
-## -- Property --
+## -- Setter/Getter --
     @property
     def name(self):
         # name getter
@@ -123,17 +123,17 @@ class ARC():
 
         return str(remain_d)
 
-    def remain_days(self, future = False):
+    def due_days(self, future = False):
         res = self._remain_days(future)
         if res in ['Done', '-']:
             return res
         return int(float(res)+.9)
 
     def due_date(self, future = False):
-        res = self.remain_days(future)
+        res = self._remain_days(future)
         if res in ['Done', '-']:
             return res
-        return date.today() + timedelta(days = res)
+        return date.today() + timedelta(days = int(float(res)+.9))
 
 ## -- Future --
     @property

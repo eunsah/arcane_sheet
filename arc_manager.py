@@ -113,7 +113,6 @@ class ARC_Manager():
 
 if __name__ == '__main__':
     print ('--- start ---')
-    prefix = ['VJ', 'CC', 'LA', 'AR', 'MO', 'ES']
     arc = ARC_Manager()
 
     level =   [0, 0, 0, 0, 0, 0]

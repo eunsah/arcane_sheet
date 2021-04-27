@@ -2,6 +2,7 @@
 ARC symbol manager class
 '''
 from arc import ARC
+from timeit import default_timer as timer
 
 class ARC_Manager():
     def __init__(self):
@@ -52,9 +53,6 @@ class ARC_Manager():
     def rem_income(self, id, value):
         self.symbol[id].income -= value
 
-    def _remain_float(self, id, future=False):
-        return self.symbol[id]._remain_days(future)
-
     def get_days(self, id, future=False):
         return self.symbol[id].due_days(future)
 
@@ -71,59 +69,83 @@ class ARC_Manager():
     def add_selector(self, id, value=1):
         self.symbol[id].selector += value
 
-    def _remain_float_fliter(self, id):
-        res = self._remain_float(id, future=True)
+    def _remain_days_float(self, id):
+        res = self.symbol[id]._remain_days(future=True)
         if res in ['Done', '-']:
-            return  0
+            return 0
         return float(res)
+
+    def _return_top_value(self) -> str:
+        # finds top value for finish date and return prefix string
+        top_value = {'empty':0.0}
+        for p in self.arc_prefix:
+            new_value = self._remain_days_float(p)
+            list_value = list(top_value.values())[0]
+            if new_value < list_value:
+                continue
+            elif new_value > list_value:
+                top_value.clear()
+                top_value[p] = new_value
+            elif new_value == list_value:
+                top_value[p] = new_value
+        return top_value.keys()
 
     def distribute_selectors(self, select):
         while select != 0:
-            remain_list = [self._remain_float_fliter(p) for p in self.arc_prefix]
-            max_days = max(remain_list)
-            if max_days < 0:
+            finish_list = self._return_top_value()
+            if list(finish_list)[0] == 'empty':
                 break
-            for p in self.arc_prefix:
-                if self._remain_float_fliter(p) == max_days:
-                    self.add_selector(p)
-                    select -= 1
-                    if select == 0:
-                        break
+            for symbol_name in list(finish_list):
+                self.add_selector(symbol_name)
+                select -= 1
+                if select == 0:
+                    break
 
 ## -- Output --
+    @property
     def output(self):
         for p in self.arc_prefix:
-            name = p
+            name = self.get_name(p).ljust(10)
             level = str(self.get_level(p)).rjust(2)
             exp = str(self.get_exp(p)).rjust(3)
             current = self.get_date(p)
-            future = self.get_date(p, True)
-            selector = str(self.get_selector(p)).ljust(5)
+            future = self.get_date(p, future = True)
+            current_d = str(self.get_days(p)).rjust(3)
+            future_d = str(self.get_days(p, future = True)).rjust(3)
+            selector = str(self.get_selector(p)).rjust(4)
             print(  name,
-                    ' | ',
+                    '|',
                     level,
                     exp,
-                    ' | ',
+                    '|',
                     current,
-                    ' == ' if current == future else ' -> ',
+                    '==' if current == future else '->',
                     future,
-                    ' | ',
-                    selector
+                    '|',
+                    current_d,
+                    '==' if current_d == future_d else '->',
+                    future_d,
+                    '|',
+                    selector,
                     )
 
 if __name__ == '__main__':
     print ('--- start ---')
+    start = timer()
     arc = ARC_Manager()
 
-    level =   [0, 0, 0, 0, 0, 0]
-    exp =     [0, 0, 0, 0, 0, 0]
+    selectors = 1000
+
+    level =   [13, 15, 13, 13, 10, 10]
+    exp =     [64, 77, 17, 48, 29, 36]
     income =  [8, 4, 4, 4, 8, 8]
     add =     [6, 15, (100+24)/30, 30/3, 0, 0]
-
     arc.setup(level, exp, income, add)
 
-    arc.distribute_selectors(1000)
+    arc.distribute_selectors(selectors)
+    print (f'Distributing {selectors} selectors')
+    arc.output
 
-    arc.output()
-
+    end = timer() - start
     print ('--- end ---')
+    print (f'total execution time : {round(end*1000, 2)} milliseconds')

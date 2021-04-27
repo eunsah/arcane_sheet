@@ -10,7 +10,6 @@ level_exp = [
     ]
 max_level = 20
 
-
 class ARC():
     '''
     ARC object class

@@ -64,7 +64,7 @@ class ARC():
     @exp.setter
     def exp(self, new_exp):
         # arc exp setter
-        max_exp = level_exp[-1]
+        max_exp = sum(level_exp)
         if new_exp > max_exp:
             new_exp = max_exp
         self._exp = new_exp

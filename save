@@ -1,0 +1,33 @@
+{
+    "VJ": {
+        "level": 13,
+        "exp": 64,
+        "income": 14
+    },
+    "CC": {
+        "level": 15,
+        "exp": 77,
+        "income": 19
+    },
+    "LA": {
+        "level": 13,
+        "exp": 17,
+        "income": 14.8
+    },
+    "AR": {
+        "level": 13,
+        "exp": 48,
+        "income": 14.0
+    },
+    "MO": {
+        "level": 10,
+        "exp": 29,
+        "income": 8
+    },
+    "ES": {
+        "level": 10,
+        "exp": 36,
+        "income": 8
+    },
+    "Selector" : 1000
+}
